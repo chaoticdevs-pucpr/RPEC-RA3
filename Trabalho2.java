@@ -180,7 +180,7 @@ public class Trabalho2 {
         return chaves;
     }
 
-    // COMPLETAR DEPOIS!!!!!!!!!!!!!!!!!!!!
+    // COMPLETAR DEPOIS!!!!!!!!!!!!!!!!!!!! @Murilo-Caxambu pls
     // Não retorna nada, mas grava e imprime a linha do arquivo CSV.
     static void executaCombinacao(PrintWriter arquivo, int conjunto, int[] chaves, int funcao){
         int[] contagem = new int[TAMANHO];
@@ -211,9 +211,9 @@ public class Trabalho2 {
         for (int indice = 0; indice < chaves.length; indice++){
             int acessosAntes = acessos;
             insere(tabela, funcao, chaves[indice]);
-            int AcessosInsercao = acessos - acessosAntes;
-            if (AcessosInsercao > maiorAcessos){
-                maiorAcessos = AcessosInsercao;
+            int acessosInsercao = acessos - acessosAntes;
+            if (acessosInsercao > maiorAcessos){
+                maiorAcessos = acessosInsercao;
             }
         }
         long fim = System.nanoTime();
@@ -234,10 +234,143 @@ public class Trabalho2 {
         arquivo.println(linha);
     }
 
-    //
-    // ??????????????
+    // Realiza diversos testes com as funções anteriormente realizadas e verifica se o resultado sai como o esperado.
+    // Exibe quantos testes foram aprovados.
     static void executaTestes(){
+        int aprovados = 0;
 
+        int[] executaChaves = {9837561, 1234567, 9999999, 1000000, 5654396, 4967000};
+        int[] resultadoDivisao = {561, 567, 999, 0, 396, 0};
+        int[] resultadoPrimo = {162, 281, 89, 9, 409, 943};
+        int[] resultadoDobra = {407, 802, 7, 1, 55, 971};
+        int[] resultadoQuadrado = {64, 556, 800, 0, 941, 890};
+        for (int indice = 0; indice < 6; indice++){
+            int chaveAtual = executaChaves[indice];
+            if (
+                hashDivisao(chaveAtual) == resultadoDivisao[indice] && 
+                hashPrimo(chaveAtual) == resultadoPrimo[indice] && 
+                hashDobra(chaveAtual) == resultadoDobra[indice] && 
+                hashMeioQuadrado(chaveAtual) == resultadoQuadrado[indice]){
+                    System.out.println("TESTE H" + (indice + 1) + ": APROVADO");
+                    aprovados++;
+            } else {
+                System.out.println("TESTE H" + (indice + 1) + ": REPROVADO");
+            }
+        }
+
+        Random sorteioH7 = new Random(1990);
+        int[] chavesH7 = geraConjunto(sorteioH7, 1, 700);
+        int posicoesInvalidas = 0;
+        for (int indice = 0; indice < 700; indice++){
+            for (int funcao = 1; funcao <= 4; funcao++){
+                int posicaoObtida = aplicaHash(funcao, chavesH7[indice]);
+                if (posicaoObtida < 0 || posicaoObtida > 999){
+                    posicoesInvalidas++;
+                }
+            }
+        }
+        if (posicoesInvalidas == 0){
+            System.out.println("TESTE H7: APROVADO");
+            aprovados++;
+        } else {
+            System.out.println("TESTE H7: REPROVADO");
+        }
+
+
+        int[] tabelaI = criaTabela();
+        acessos = 0;
+        colisoes = 0;
+
+        insere(tabelaI, 1, 5001);
+        insere(tabelaI, 1, 7001);
+        insere(tabelaI, 1, 9001);
+        if (tabelaI[1] == 5001 && tabelaI[2] == 7001 && tabelaI[3] == 9001){
+            System.out.println("TESTE I1: APROVADO");
+            aprovados++;
+        } else {
+            System.out.println("TESTE I1: REPROVADO");
+        }
+
+        if (colisoes == 2 && acessos == 6){
+            System.out.println("TESTE I2: APROVADO");
+            aprovados++;
+        } else{
+            System.out.println("TESTE I2: REPROVADO");
+        }
+
+        acessos = 0;
+        if (busca(tabelaI, 1, 9001) == 3 && acessos == 3){
+            System.out.println("TESTE I3: APROVADO");
+            aprovados++;
+        } else {
+            System.out.println("TESTE I3: REPROVADO");
+        }
+
+        acessos = 0;
+        if (busca(tabelaI, 1, 4001) == -1 && acessos == 4){
+            System.out.println("TESTE I4: APROVADO");
+            aprovados++;
+        } else {
+            System.out.println("TESTE I4: REPROVADO");
+        }
+
+        int[] tabelaI5 = criaTabela();
+        insere(tabelaI5, 1, 1000999);
+        insere(tabelaI5, 1, 2000999);
+        if (tabelaI5[999] == 1000999 && tabelaI5[0] == 2000999){
+            System.out.println("TESTE I5: APROVADO");
+            aprovados++;
+        } else {
+            System.out.println("TESTE I5: REPROVADO");
+        }
+
+        acessos = 0;
+        int retornoInsercao = insere(tabelaI5, 1, 2000999);
+        if (retornoInsercao == 0 && acessos == 2){
+            System.out.println("TESTE I6: APROVADO");
+            aprovados++;
+        } else {
+            System.out.println("TESTE I6: REPROVADO");
+        }
+
+
+        Random sorteioS1 = new Random(1990);
+        int[] chavesS1 = geraConjunto(sorteioS1, 1, 700);
+        if (chavesS1[0] == 4429279 && chavesS1[1] == 3976163 && chavesS1[2] == 9187615 && chavesS1[699] == 9691227 && duplicadasDescartadas == 0) {
+            System.out.println("TESTE S1: APROVADO");
+            aprovados++;
+        } else {
+            System.out.println("TESTE S1: REPROVADO");
+        }
+
+        Random sorteioS2 = new Random(1990);
+        int[] chavesS2 = geraConjunto(sorteioS2, 2, 700);
+        if (chavesS2[0] == 1279000 && chavesS2[1] == 7163000 && chavesS2[2] == 7615000 && chavesS2[699] == 7494000 && duplicadasDescartadas == 32) {
+            System.out.println("TESTE S2: APROVADO");
+            aprovados++;
+        } else {
+            System.out.println("TESTE S2: REPROVADO");
+        }
+
+        Random sorteioS3 = new Random(1990);
+        int[] chavesS3 = geraConjunto(sorteioS3, 3, 700);
+        if (chavesS3[0] == 8292790 && chavesS3[1] == 3761630 && chavesS3[2] == 1876150 && chavesS3[699] == 6289620 && duplicadasDescartadas == 0) {
+            System.out.println("TESTE S3: APROVADO");
+            aprovados++;
+        } else {
+            System.out.println("TESTE S3: REPROVADO");
+        }
+
+        Random sorteioS4 = new Random(1990);
+        int[] chavesS4 = geraConjunto(sorteioS4, 4, 700);
+        if (chavesS4[0] == 1000001 && chavesS4[1] == 1000002 && chavesS4[2] == 1000003 && chavesS4[699] == 1000700 && duplicadasDescartadas == 0) {
+            System.out.println("TESTE S4: APROVADO");
+            aprovados++;
+        } else {
+            System.out.println("TESTE S4: REPROVADO");
+        }
+
+        System.out.println("TESTES: " + aprovados + " de 17 aprovados");
     }
 
     public static void main(String[] args) throws IOException{

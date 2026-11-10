@@ -393,5 +393,6 @@ public class Trabalho2 {
                 executaCombinacao(arquivo, conjunto, chaves, funcao);
             }
         }
+        arquivo.close();
     }
 }

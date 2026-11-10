@@ -373,7 +373,25 @@ public class Trabalho2 {
         System.out.println("TESTES: " + aprovados + " de 17 aprovados");
     }
 
+    // Executa os testes e os experimentos com os diferentes conjuntos de chaves e funções hash,
+    // exibindo e salvando os resultados em um arquivo CSV.
     public static void main(String[] args) throws IOException{
+        executaTestes();
         
+        PrintWriter arquivo = new PrintWriter("resultados_trabalho2.csv");
+
+        String cabecalho = "conjunto;funcao;chaves;posicoesUsadas;posicoesNuncaUsadas;maiorConcentracao;somaQuadrados;colisoes;acessosInsercaoTotal;maiorAcessosUmaInsercao;acessosBuscaSucessoMedia;tempoInsercaoNsPorOp";
+
+        System.out.println(cabecalho);
+        arquivo.println(cabecalho);
+
+        for (int conjunto = 1; conjunto <= 4; conjunto++) {
+        Random sorteio = new Random(1990);
+        int[] chaves = geraConjunto(sorteio, conjunto, QUANTIDADE);
+
+            for (int funcao = 1; funcao <= 4; funcao++) {
+                executaCombinacao(arquivo, conjunto, chaves, funcao);
+            }
+        }
     }
 }

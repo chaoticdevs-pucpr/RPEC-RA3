@@ -180,7 +180,7 @@ public class Trabalho2 {
         return chaves;
     }
 
-    // COMPLETAR DEPOIS!!!!!!!!!!!!!!!!!!!! @Murilo-Caxambu pls
+    // Executa os testes de distribuicao, insercao e busca para um conjunto e uma funcao hash.
     // Não retorna nada, mas grava e imprime a linha do arquivo CSV.
     static void executaCombinacao(PrintWriter arquivo, int conjunto, int[] chaves, int funcao){
         int[] contagem = new int[TAMANHO];
